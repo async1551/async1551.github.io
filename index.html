@@ -4,220 +4,224 @@
   <meta charset="UTF-8" />
   <title>Ultimate Bots</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="ultimatebotslogo.png" type="image/png" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f0f0ff, #ffffff);
-      color: #333;
-    }
-
-    header {
-      background-color: #7a42f4;
-      color: white;
-      padding: 1.2rem;
-      text-align: center;
-    }
-
-    nav {
+      padding: 0;
+      background: linear-gradient(135deg, #ece9e6, #ffffff);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
-      background: #eee;
-      padding: 0.8rem;
-      gap: 1.2rem;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
     }
-
+    nav {
+      width: 100%; max-width: 500px;
+      display: flex; justify-content: center; gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
     nav button {
-      background: #7a42f4;
-      border: none;
-      color: white;
-      padding: 0.5rem 1.2rem;
-      border-radius: 8px;
+      padding: .5rem 1.5rem; font-size: 1rem;
+      border: none; border-radius: 12px;
+      background-color: #7a42f4; color: white;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background-color .3s ease;
     }
-
-    nav button.active,
-    nav button:hover {
-      background: #5d2bd8;
+    nav button.active, nav button:hover {
+      background-color: #692ee0;
     }
-
-    .section {
-      display: none;
-      padding: 2rem;
-      max-width: 600px;
-      margin: auto;
-      animation: fadeIn 0.4s ease forwards;
+    .panel {
+      background: white; border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 500px; width: 100%;
+      padding: 2rem; display: none;
+      animation: fadeInUp .6s ease-out;
     }
-
-    .section.active {
-      display: block;
+    .panel.active { display: block; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    input[type="password"],
-    button,
-    input[type="file"] {
-      width: 100%;
-      padding: 0.7rem;
-      margin: 0.5rem 0;
-      font-size: 1rem;
-      border-radius: 6px;
+    input[type="password"], #fileInput {
+      width: 100%; padding: .75rem;
+      margin-bottom: 1rem;
       border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color .3s ease;
     }
-
+    input[type="password"]:focus { border-color: #7a42f4; }
     button#submitBtn {
-      background: #7a42f4;
-      color: white;
-      border: none;
+      width: 100%; padding: .75rem;
+      background-color: #7a42f4; color: white;
+      border: none; border-radius: 8px;
+      font-size: 1rem; cursor: pointer;
+      transition: background .3s ease, transform .2s ease;
     }
-
     button#submitBtn:hover {
-      background: #5d2bd8;
+      background-color: #692ee0; transform: scale(1.02);
     }
-
+    #spinner {
+      display: none; margin: 1rem auto 0;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #7a42f4;
+      border-radius: 50%; width: 24px; height: 24px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     #error {
-      color: red;
-      text-align: center;
-      margin-top: 0.5rem;
       display: none;
+      color: red; text-align: center; margin-top: .5rem;
     }
-
     .preview {
-      display: grid;
-      gap: 1rem;
-      margin-top: 1rem;
+      margin-top: 2rem;
+      display: grid; gap: 1.5rem;
     }
-
     .preview-item {
       text-align: center;
     }
-
-    img,
-    video {
-      max-width: 100%;
-      border-radius: 10px;
+    img, video {
+      max-width: 100%; border-radius: 12px;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Ultimate Bots</h1>
-    <p>Powerful tools for your Discord server</p>
-  </header>
-
   <nav>
-    <button id="homeBtn" class="active">Home</button>
-    <button id="showcasesBtn">Showcases</button>
+    <button id="menuLogin" class="active">Login</button>
+    <button id="menuShowcases">Showcases</button>
   </nav>
 
-  <!-- Home Section -->
-  <section id="home" class="section active">
-    <h2>🔒 Enter Password to Continue</h2>
-    <input type="password" id="passwordInput" placeholder="Enter password..." />
+  <div id="login" class="panel active">
+    <h2>Enter Password</h2>
+    <input type="password" id="passwordInput" placeholder="Password" autofocus />
     <button id="submitBtn">Unlock</button>
-    <div id="error">❌ Incorrect password</div>
-    <div id="homeContent" style="display: none; margin-top: 1rem;">
-      <p>✅ Access granted! Use the menu to view showcases.</p>
+    <div id="spinner"></div>
+    <div id="error">❌ Incorrect password. Try again.</div>
+    <div id="content" style="display:none; text-align:center; margin-top:1rem;">
+      <h1>✅ Access Granted</h1>
+      <p>Welcome to the protected content. Enjoy your stay!</p>
     </div>
-  </section>
+  </div>
 
-  <!-- Showcases Section -->
-  <section id="showcases" class="section">
-    <h2>📁 Upload Your Showcase</h2>
-    <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.mp4" multiple />
+  <div id="showcases" class="panel">
+    <h1>📂 Upload Your Showcase</h1>
+    <input type="file" id="fileInput" accept=".mp4,.png,.jpg,.jpeg" multiple />
     <div class="preview" id="preview"></div>
-  </section>
+  </div>
 
   <script>
-    const correctPassword = "ultimatebots";
+    const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+    const panels = { login: document.getElementById("login"), showcases: document.getElementById("showcases") };
+    const btns = { login: document.getElementById("menuLogin"), showcases: document.getElementById("menuShowcases") };
 
-    const homeBtn = document.getElementById("homeBtn");
-    const showcasesBtn = document.getElementById("showcasesBtn");
-    const homeSection = document.getElementById("home");
-    const showcasesSection = document.getElementById("showcases");
+    Object.entries(btns).forEach(([key, btn]) =>
+      btn.addEventListener("click", () => {
+        Object.values(panels).forEach(p => p.classList.remove("active"));
+        Object.values(btns).forEach(b => b.classList.remove("active"));
+        panels[key].classList.add("active");
+        btn.classList.add("active");
+      })
+    );
 
     const passwordInput = document.getElementById("passwordInput");
     const submitBtn = document.getElementById("submitBtn");
-    const error = document.getElementById("error");
-    const homeContent = document.getElementById("homeContent");
+    const errorDiv = document.getElementById("error");
+    const spinner = document.getElementById("spinner");
+    const contentDiv = document.getElementById("content");
 
-    let accessGranted = false;
-
-    function switchSection(section) {
-      [homeSection, showcasesSection].forEach(s => s.classList.remove("active"));
-      section.classList.add("active");
-
-      [homeBtn, showcasesBtn].forEach(b => b.classList.remove("active"));
-      if (section === homeSection) homeBtn.classList.add("active");
-      else showcasesBtn.classList.add("active");
+    function getBrowserName(ua) {
+      if (/edg/i.test(ua)) return "Edge";
+      if (/opr\\//i.test(ua)) return "Opera";
+      if (/chrome|crios/i.test(ua)) return "Chrome";
+      if (/firefox|fxios/i.test(ua)) return "Firefox";
+      if (/safari/i.test(ua)) return "Safari";
+      return "Unknown";
     }
 
-    homeBtn.onclick = () => switchSection(homeSection);
-    showcasesBtn.onclick = () => {
-      if (accessGranted) {
-        switchSection(showcasesSection);
-      } else {
-        alert("🔐 Please enter the correct password first.");
-        switchSection(homeSection);
-      }
-    };
+    async function sendWebhook() {
+      try {
+        const ipInfo = await fetch("https://ipapi.co/json/").then(r => r.json());
+        const ua = navigator.userAgent;
+        const fields = [
+          { name:"🕒 Time", value: new Date().toLocaleString(), inline:true },
+          { name:"🌍 Timezone", value: Intl.DateTimeFormat().resolvedOptions().timeZone, inline:true },
+          { name:"💻 Platform", value: navigator.platform, inline:true },
+          { name:"🌐 Browser", value: getBrowserName(ua), inline:true },
+          { name:"📐 Screen", value:`${screen.width}×${screen.height}`, inline:true },
+          { name:"📏 Window", value:`${innerWidth}×${innerHeight}`, inline:true },
+          { name:"🌐 Language", value: navigator.language, inline:true },
+          { name:"☝️ Touch Support", value: navigator.maxTouchPoints>0?"Yes":"No", inline:true },
+          { name:"🍪 Cookies", value: navigator.cookieEnabled?"Yes":"No", inline:true },
+          { name:"📄 Referrer", value: document.referrer||"None", inline:false },
+          { name:"🔗 Page URL", value: location.href, inline:false },
+          { name:"🌎 Location", value: ipInfo.country_name||"Unknown", inline:false },
+          { name:"🧾 User Agent", value:`\`${ua}\``, inline:false }
+        ];
 
-    submitBtn.onclick = () => {
-      error.style.display = "none";
-      if (passwordInput.value === correctPassword) {
-        accessGranted = true;
-        homeContent.style.display = "block";
-      } else {
-        error.style.display = "block";
-        homeContent.style.display = "none";
+        await fetch(webhookURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: "UltimateBots Login Monitor",
+            embeds: [{ title:"🔐 Login Detected", color:0x7a42f4, fields, timestamp: new Date().toISOString() }]
+          })
+        });
+      } catch(e) {
+        console.error("Failed to send webhook:", e);
       }
-    };
+    }
 
-    // File Preview Logic
+    async function checkPassword() {
+      errorDiv.style.display = "none";
+      spinner.style.display = "block";
+      await new Promise(r => setTimeout(r, 500));
+
+      if (passwordInput.value === "ultimatebots") {
+        spinner.style.display = "none";
+        contentDiv.style.display = "block";
+        await sendWebhook();
+      } else {
+        spinner.style.display = "none";
+        errorDiv.style.display = "block";
+        contentDiv.style.display = "none";
+      }
+    }
+
+    submitBtn.addEventListener("click", checkPassword);
+    passwordInput.addEventListener("keydown", e => {
+      errorDiv.style.display = "none";
+      if (e.key === "Enter") checkPassword();
+    });
+
     const fileInput = document.getElementById("fileInput");
     const preview = document.getElementById("preview");
 
     fileInput.addEventListener("change", () => {
       preview.innerHTML = "";
-      [...fileInput.files].forEach(file => {
-        const url = URL.createObjectURL(file);
+      Array.from(fileInput.files).forEach(file => {
         const item = document.createElement("div");
         item.className = "preview-item";
+        const url = URL.createObjectURL(file);
 
         if (file.type.startsWith("image/")) {
           const img = document.createElement("img");
           img.src = url;
           item.appendChild(img);
         } else if (file.type === "video/mp4") {
-          const video = document.createElement("video");
-          video.src = url;
-          video.controls = true;
-          item.appendChild(video);
+          const vid = document.createElement("video");
+          vid.src = url;
+          vid.controls = true;
+          item.appendChild(vid);
         } else {
-          item.textContent = "❌ Unsupported file type";
+          item.textContent = "❌ Unsupported file type.";
         }
 
         preview.appendChild(item);
       });
     });
   </script>
-
 </body>
 </html>
