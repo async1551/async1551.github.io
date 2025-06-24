@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Ultimate Bots</title>
-  <link rel="icon" href="ultimatebotslogo.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="ultimatebotslogo.png" type="image/png" />
   <style>
     * {
       box-sizing: border-box;
@@ -12,102 +12,83 @@
 
     body {
       margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #ece9e6, #ffffff);
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0f0ff, #ffffff);
+      color: #333;
+    }
+
+    header {
+      background-color: #7a42f4;
+      color: white;
+      padding: 1.2rem;
+      text-align: center;
     }
 
     nav {
-      width: 100%;
-      max-width: 500px;
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
+      background: #eee;
+      padding: 0.8rem;
+      gap: 1.2rem;
     }
 
     nav button {
-      padding: 0.5rem 1.5rem;
-      font-size: 1rem;
+      background: #7a42f4;
       border: none;
-      border-radius: 12px;
-      background-color: #7a42f4;
       color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background 0.3s;
     }
 
-    nav button.active, nav button:hover {
-      background-color: #692ee0;
+    nav button.active,
+    nav button:hover {
+      background: #5d2bd8;
     }
 
-    .panel {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
-      width: 100%;
-      padding: 2rem;
+    .section {
       display: none;
-      animation: fadeInUp 0.6s forwards;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      animation: fadeIn 0.4s ease forwards;
     }
 
-    .panel.active {
+    .section.active {
       display: block;
     }
 
-    @keyframes fadeInUp {
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
       to {
         opacity: 1;
         transform: translateY(0);
       }
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
     }
 
-    /* Login styles */
-    #login h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    input[type="password"] {
+    input[type="password"],
+    button,
+    input[type="file"] {
       width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
       font-size: 1rem;
-      outline: none;
-      transition: border 0.3s ease;
-    }
-
-    input[type="password"]:focus {
-      border-color: #7a42f4;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
 
     button#submitBtn {
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #7a42f4;
+      background: #7a42f4;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
     }
 
     button#submitBtn:hover {
-      background-color: #692ee0;
-      transform: scale(1.02);
+      background: #5d2bd8;
     }
 
     #error {
@@ -117,293 +98,120 @@
       display: none;
     }
 
-    #spinner {
-      display: none;
-      margin: 1rem auto 0;
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #7a42f4;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* Showcases styles */
-    #showcases h1 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    #fileInput {
-      display: block;
-      margin: 1rem auto;
-    }
-
     .preview {
-      margin-top: 2rem;
       display: grid;
-      gap: 1.5rem;
+      gap: 1rem;
+      margin-top: 1rem;
     }
 
     .preview-item {
       text-align: center;
     }
 
-    video, img {
+    img,
+    video {
       max-width: 100%;
-      border-radius: 12px;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
 
+  <header>
+    <h1>Ultimate Bots</h1>
+    <p>Powerful tools for your Discord server</p>
+  </header>
+
   <nav>
-    <button id="menuLogin" class="active">Login</button>
-    <button id="menuShowcases">Showcases</button>
+    <button id="homeBtn" class="active">Home</button>
+    <button id="showcasesBtn">Showcases</button>
   </nav>
 
-  <div id="login" class="panel active">
-    <h2>Enter Password</h2>
-    <input type="password" id="passwordInput" placeholder="Password" autofocus />
+  <!-- Home Section -->
+  <section id="home" class="section active">
+    <h2>🔒 Enter Password to Continue</h2>
+    <input type="password" id="passwordInput" placeholder="Enter password..." />
     <button id="submitBtn">Unlock</button>
-    <div id="spinner"></div>
-    <div id="error">❌ Incorrect password. Try again.</div>
-    <div id="content" style="display:none; text-align:center; margin-top: 1rem;">
-      <h1>✅ Access Granted</h1>
-      <p>Welcome to the protected content. Enjoy your stay!</p>
+    <div id="error">❌ Incorrect password</div>
+    <div id="homeContent" style="display: none; margin-top: 1rem;">
+      <p>✅ Access granted! Use the menu to view showcases.</p>
     </div>
-  </div>
+  </section>
 
-  <div id="showcases" class="panel">
-    <h1>📂 Upload Your Showcase</h1>
-    <input type="file" id="fileInput" accept=".mp4,.png,.jpg,.jpeg" multiple />
+  <!-- Showcases Section -->
+  <section id="showcases" class="section">
+    <h2>📁 Upload Your Showcase</h2>
+    <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.mp4" multiple />
     <div class="preview" id="preview"></div>
-  </div>
+  </section>
 
   <script>
-    // Navigation buttons
-    const menuLogin = document.getElementById('menuLogin');
-    const menuShowcases = document.getElementById('menuShowcases');
-
-    // Panels
-    const loginPanel = document.getElementById('login');
-    const showcasesPanel = document.getElementById('showcases');
-
-    function showPanel(panelToShow) {
-      // Hide all panels
-      [loginPanel, showcasesPanel].forEach(p => p.classList.remove('active'));
-
-      // Remove active class from all buttons
-      [menuLogin, menuShowcases].forEach(btn => btn.classList.remove('active'));
-
-      // Show chosen panel
-      panelToShow.classList.add('active');
-
-      // Activate correct menu button
-      if (panelToShow === loginPanel) menuLogin.classList.add('active');
-      else if (panelToShow === showcasesPanel) menuShowcases.classList.add('active');
-    }
-
-    menuLogin.addEventListener('click', () => {
-      showPanel(loginPanel);
-    });
-
-    menuShowcases.addEventListener('click', () => {
-      showPanel(showcasesPanel);
-    });
-
-    // Password check logic
     const correctPassword = "ultimatebots";
 
-    const passwordInput = document.getElementById('passwordInput');
-    const submitBtn = document.getElementById('submitBtn');
-    const errorDiv = document.getElementById('error');
-    const spinner = document.getElementById('spinner');
-    const contentDiv = document.getElementById('content');
+    const homeBtn = document.getElementById("homeBtn");
+    const showcasesBtn = document.getElementById("showcasesBtn");
+    const homeSection = document.getElementById("home");
+    const showcasesSection = document.getElementById("showcases");
 
-    async function sendWebhookMessage() {
-        // Get IP and location
-        const ipInfo = await fetch("https://ipapi.co/json/")
-          .then(res => res.json())
-          .catch(() => ({}));
+    const passwordInput = document.getElementById("passwordInput");
+    const submitBtn = document.getElementById("submitBtn");
+    const error = document.getElementById("error");
+    const homeContent = document.getElementById("homeContent");
 
-        const country = ipInfo.country_name || "Unknown";
-      
-        // Device info
-        const userAgent = navigator.userAgent;
-        const platform = navigator.platform;
-        const browser = getBrowserInfo(userAgent);
-        const timestamp = new Date().toLocaleString();
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const language = navigator.language;
-        const screenSize = `${window.screen.width}x${window.screen.height}`;
-        const windowSize = `${window.innerWidth}x${window.innerHeight}`;
-        const referrer = document.referrer || "None";
-        const pageURL = window.location.href;
-        const touchSupport = navigator.maxTouchPoints > 0 ? "Yes" : "No";
-        const cookieEnabled = navigator.cookieEnabled ? "Yes" : "No";
-      
-        const embed = {
-          title: "🔐 Login Detected",
-          color: 0x7a42f4,
-          fields: [
-            { name: "🕒 Time", value: timestamp, inline: true },
-            { name: "🌍 Timezone", value: timezone, inline: true },
-            { name: "💻 Platform", value: platform, inline: true },
-            { name: "🌐 Browser", value: browser, inline: true },
-            { name: "📐 Screen Size", value: screenSize, inline: true },
-            { name: "📏 Window Size", value: windowSize, inline: true },
-            { name: "🌐 Language", value: language, inline: true },
-            { name: "☝️ Touch Support", value: touchSupport, inline: true },
-            { name: "🍪 Cookies Enabled", value: cookieEnabled, inline: true },
-            { name: "📄 Referrer", value: referrer, inline: false },
-            { name: "🔗 Page URL", value: pageURL, inline: false },
-            { name: "🌎 Location", value: `${country}`, inline: false },
+    let accessGranted = false;
 
-            { name: "🧾 User Agent", value: `\`${userAgent}\``, inline: false }
-          ],
-          footer: {
-            text: "Ultimate Bots WebSite - Login"
-          },
-          timestamp: new Date().toISOString()
-        };
-      
-        fetch(webhookURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: "WebSite | Login ",
-            embeds: [embed]
-          })
-        }).catch(console.error);
-      }
-      
-      function getBrowserInfo(ua) {
-        if (/edg/i.test(ua)) return "Edge";
-        if (/opr\//i.test(ua)) return "Opera";
-        if (/chrome|crios/i.test(ua)) return "Chrome";
-        if (/firefox|fxios/i.test(ua)) return "Firefox";
-        if (/safari/i.test(ua)) return "Safari";
-        return "Unknown";
-      }```async function sendWebhookMessage() {
-        // Get IP and location
-        const ipInfo = await fetch("https://ipapi.co/json/")
-          .then(res => res.json())
-          .catch(() => ({}));
+    function switchSection(section) {
+      [homeSection, showcasesSection].forEach(s => s.classList.remove("active"));
+      section.classList.add("active");
 
-        const country = ipInfo.country_name || "Unknown";
-      
-        // Device info
-        const userAgent = navigator.userAgent;
-        const platform = navigator.platform;
-        const browser = getBrowserInfo(userAgent);
-        const timestamp = new Date().toLocaleString();
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const language = navigator.language;
-        const screenSize = `${window.screen.width}x${window.screen.height}`;
-        const windowSize = `${window.innerWidth}x${window.innerHeight}`;
-        const referrer = document.referrer || "None";
-        const pageURL = window.location.href;
-        const touchSupport = navigator.maxTouchPoints > 0 ? "Yes" : "No";
-        const cookieEnabled = navigator.cookieEnabled ? "Yes" : "No";
-      
-        const embed = {
-          title: "🔐 Login Detected",
-          color: 0x7a42f4,
-          fields: [
-            { name: "🕒 Time", value: timestamp, inline: true },
-            { name: "🌍 Timezone", value: timezone, inline: true },
-            { name: "💻 Platform", value: platform, inline: true },
-            { name: "🌐 Browser", value: browser, inline: true },
-            { name: "📐 Screen Size", value: screenSize, inline: true },
-            { name: "📏 Window Size", value: windowSize, inline: true },
-            { name: "🌐 Language", value: language, inline: true },
-            { name: "☝️ Touch Support", value: touchSupport, inline: true },
-            { name: "🍪 Cookies Enabled", value: cookieEnabled, inline: true },
-            { name: "📄 Referrer", value: referrer, inline: false },
-            { name: "🔗 Page URL", value: pageURL, inline: false },
-            { name: "🌎 Location", value: `${country}`, inline: false },
-
-            { name: "🧾 User Agent", value: `\`${userAgent}\``, inline: false }
-          ],
-          footer: {
-            text: "Ultimate Bots WebSite - Login"
-          },
-          timestamp: new Date().toISOString()
-        };
-      
-        fetch(webhookURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: "WebSite | Login ",
-            embeds: [embed]
-          })
-        }).catch(console.error);
-      }
-      
-      function getBrowserInfo(ua) {
-        if (/edg/i.test(ua)) return "Edge";
-        if (/opr\//i.test(ua)) return "Opera";
-        if (/chrome|crios/i.test(ua)) return "Chrome";
-        if (/firefox|fxios/i.test(ua)) return "Firefox";
-        if (/safari/i.test(ua)) return "Safari";
-        return "Unknown";
-      }
-
-    async function checkPassword() {
-      errorDiv.style.display = "none";
-      spinner.style.display = "block";
-
-      await new Promise(r => setTimeout(r, 600));
-
-      if (passwordInput.value === correctPassword) {
-        spinner.style.display = "none";
-        errorDiv.style.display = "none";
-        contentDiv.style.display = "block";
-      } else {
-        spinner.style.display = "none";
-        errorDiv.style.display = "block";
-        contentDiv.style.display = "none";
-      }
+      [homeBtn, showcasesBtn].forEach(b => b.classList.remove("active"));
+      if (section === homeSection) homeBtn.classList.add("active");
+      else showcasesBtn.classList.add("active");
     }
 
-    submitBtn.addEventListener('click', checkPassword);
-    passwordInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') checkPassword();
-      errorDiv.style.display = 'none';
-    });
+    homeBtn.onclick = () => switchSection(homeSection);
+    showcasesBtn.onclick = () => {
+      if (accessGranted) {
+        switchSection(showcasesSection);
+      } else {
+        alert("🔐 Please enter the correct password first.");
+        switchSection(homeSection);
+      }
+    };
 
-    // Showcases file upload preview
-    const fileInput = document.getElementById('fileInput');
-    const preview = document.getElementById('preview');
+    submitBtn.onclick = () => {
+      error.style.display = "none";
+      if (passwordInput.value === correctPassword) {
+        accessGranted = true;
+        homeContent.style.display = "block";
+      } else {
+        error.style.display = "block";
+        homeContent.style.display = "none";
+      }
+    };
 
-    fileInput.addEventListener('change', () => {
-      preview.innerHTML = '';
-      const files = Array.from(fileInput.files);
+    // File Preview Logic
+    const fileInput = document.getElementById("fileInput");
+    const preview = document.getElementById("preview");
 
-      files.forEach(file => {
-        const fileURL = URL.createObjectURL(file);
-        const item = document.createElement('div');
-        item.className = 'preview-item';
+    fileInput.addEventListener("change", () => {
+      preview.innerHTML = "";
+      [...fileInput.files].forEach(file => {
+        const url = URL.createObjectURL(file);
+        const item = document.createElement("div");
+        item.className = "preview-item";
 
-        if (file.type.startsWith('image/')) {
-          const img = document.createElement('img');
-          img.src = fileURL;
+        if (file.type.startsWith("image/")) {
+          const img = document.createElement("img");
+          img.src = url;
           item.appendChild(img);
-        } else if (file.type === 'video/mp4') {
-          const video = document.createElement('video');
-          video.src = fileURL;
+        } else if (file.type === "video/mp4") {
+          const video = document.createElement("video");
+          video.src = url;
           video.controls = true;
           item.appendChild(video);
         } else {
-          item.textContent = '❌ Unsupported file type.';
+          item.textContent = "❌ Unsupported file type";
         }
 
         preview.appendChild(item);
