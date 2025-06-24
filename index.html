@@ -130,15 +130,36 @@
     const webhookURL = "https://discord.com/api/webhooks/1387062874488180746/ViAtWPxP3sXwwSi1rSNpOnzMIMrRtIBsxuPHRA5NV3kxe1mdwqAb71eAAav_qu1P3tL2"; // Replace with your webhook
 
     function sendWebhookMessage() {
-      fetch(webhookURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          content: "🔐 Someone logged into the protected page!",
-          username: "Access Logger"
-        })
-      }).catch(console.error);
-    }
+        const userAgent = navigator.userAgent;
+        const platform = navigator.platform;
+        const browser = getBrowserInfo(userAgent);
+        const timestamp = new Date().toLocaleString();
+      
+        const message = `🔐 **Login Detected**
+      **🕒 Time:** ${timestamp}
+      **💻 Platform:** ${platform}
+      **🌐 Browser:** ${browser}
+      **🧾 User Agent:** \`${userAgent}\``;
+      
+        fetch(webhookURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: message,
+            username: "Access Logger"
+          })
+        }).catch(console.error);
+      }
+      
+      // Basic browser detection
+      function getBrowserInfo(ua) {
+        if (/firefox|fxios/i.test(ua)) return "Firefox";
+        if (/edg/i.test(ua)) return "Edge";
+        if (/chrome|crios/i.test(ua)) return "Chrome";
+        if (/safari/i.test(ua)) return "Safari";
+        if (/opr\//i.test(ua)) return "Opera";
+        return "Unknown";
+      }
 
     async function checkPassword() {
       const input = document.getElementById("passwordInput").value;
