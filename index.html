@@ -15,22 +15,50 @@
       padding: 0;
       background: linear-gradient(135deg, #ece9e6, #ffffff);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
     }
 
-    #login, #content {
+    nav {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    nav button {
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      background-color: #7a42f4;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    nav button.active, nav button:hover {
+      background-color: #692ee0;
+    }
+
+    .panel {
       background: white;
-      padding: 2.5rem;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 90%;
-      opacity: 0;
-      transform: translateY(20px);
+      max-width: 500px;
+      width: 100%;
+      padding: 2rem;
+      display: none;
       animation: fadeInUp 0.6s forwards;
+    }
+
+    .panel.active {
+      display: block;
     }
 
     @keyframes fadeInUp {
@@ -38,11 +66,16 @@
         opacity: 1;
         transform: translateY(0);
       }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
     }
 
-    h1, h2 {
+    /* Login styles */
+    #login h2 {
       text-align: center;
-      margin: 0 0 1rem;
+      margin-bottom: 1rem;
     }
 
     input[type="password"] {
@@ -60,7 +93,7 @@
       border-color: #7a42f4;
     }
 
-    button {
+    button#submitBtn {
       width: 100%;
       padding: 0.75rem;
       background-color: #7a42f4;
@@ -72,7 +105,7 @@
       transition: background 0.3s ease, transform 0.2s ease;
     }
 
-    button:hover {
+    button#submitBtn:hover {
       background-color: #692ee0;
       transform: scale(1.02);
     }
@@ -101,36 +134,164 @@
       }
     }
 
-    #content {
-      display: none;
+    /* Showcases styles */
+    #showcases h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    #fileInput {
+      display: block;
+      margin: 1rem auto;
+    }
+
+    .preview {
+      margin-top: 2rem;
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .preview-item {
       text-align: center;
     }
 
-    #content p {
-      margin-top: 1rem;
+    video, img {
+      max-width: 100%;
+      border-radius: 12px;
     }
   </style>
 </head>
 <body>
 
-  <div id="login">
+  <nav>
+    <button id="menuLogin" class="active">Login</button>
+    <button id="menuShowcases">Showcases</button>
+  </nav>
+
+  <div id="login" class="panel active">
     <h2>Enter Password</h2>
     <input type="password" id="passwordInput" placeholder="Password" autofocus />
     <button id="submitBtn">Unlock</button>
     <div id="spinner"></div>
     <div id="error">❌ Incorrect password. Try again.</div>
+    <div id="content" style="display:none; text-align:center; margin-top: 1rem;">
+      <h1>✅ Access Granted</h1>
+      <p>Welcome to the protected content. Enjoy your stay!</p>
+    </div>
   </div>
 
-  <div id="content">
-    <h1>✅ Access Granted</h1>
-    <p>Welcome to the protected content. Enjoy your stay!</p>
+  <div id="showcases" class="panel">
+    <h1>📂 Upload Your Showcase</h1>
+    <input type="file" id="fileInput" accept=".mp4,.png,.jpg,.jpeg" multiple />
+    <div class="preview" id="preview"></div>
   </div>
 
   <script>
+    // Navigation buttons
+    const menuLogin = document.getElementById('menuLogin');
+    const menuShowcases = document.getElementById('menuShowcases');
+
+    // Panels
+    const loginPanel = document.getElementById('login');
+    const showcasesPanel = document.getElementById('showcases');
+
+    function showPanel(panelToShow) {
+      // Hide all panels
+      [loginPanel, showcasesPanel].forEach(p => p.classList.remove('active'));
+
+      // Remove active class from all buttons
+      [menuLogin, menuShowcases].forEach(btn => btn.classList.remove('active'));
+
+      // Show chosen panel
+      panelToShow.classList.add('active');
+
+      // Activate correct menu button
+      if (panelToShow === loginPanel) menuLogin.classList.add('active');
+      else if (panelToShow === showcasesPanel) menuShowcases.classList.add('active');
+    }
+
+    menuLogin.addEventListener('click', () => {
+      showPanel(loginPanel);
+    });
+
+    menuShowcases.addEventListener('click', () => {
+      showPanel(showcasesPanel);
+    });
+
+    // Password check logic
     const correctPassword = "ultimatebots";
-    const webhookURL = "https://discord.com/api/webhooks/1387062874488180746/ViAtWPxP3sXwwSi1rSNpOnzMIMrRtIBsxuPHRA5NV3kxe1mdwqAb71eAAav_qu1P3tL2"; // Replace with your webhook
+
+    const passwordInput = document.getElementById('passwordInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorDiv = document.getElementById('error');
+    const spinner = document.getElementById('spinner');
+    const contentDiv = document.getElementById('content');
 
     async function sendWebhookMessage() {
+        // Get IP and location
+        const ipInfo = await fetch("https://ipapi.co/json/")
+          .then(res => res.json())
+          .catch(() => ({}));
+
+        const country = ipInfo.country_name || "Unknown";
+      
+        // Device info
+        const userAgent = navigator.userAgent;
+        const platform = navigator.platform;
+        const browser = getBrowserInfo(userAgent);
+        const timestamp = new Date().toLocaleString();
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const language = navigator.language;
+        const screenSize = `${window.screen.width}x${window.screen.height}`;
+        const windowSize = `${window.innerWidth}x${window.innerHeight}`;
+        const referrer = document.referrer || "None";
+        const pageURL = window.location.href;
+        const touchSupport = navigator.maxTouchPoints > 0 ? "Yes" : "No";
+        const cookieEnabled = navigator.cookieEnabled ? "Yes" : "No";
+      
+        const embed = {
+          title: "🔐 Login Detected",
+          color: 0x7a42f4,
+          fields: [
+            { name: "🕒 Time", value: timestamp, inline: true },
+            { name: "🌍 Timezone", value: timezone, inline: true },
+            { name: "💻 Platform", value: platform, inline: true },
+            { name: "🌐 Browser", value: browser, inline: true },
+            { name: "📐 Screen Size", value: screenSize, inline: true },
+            { name: "📏 Window Size", value: windowSize, inline: true },
+            { name: "🌐 Language", value: language, inline: true },
+            { name: "☝️ Touch Support", value: touchSupport, inline: true },
+            { name: "🍪 Cookies Enabled", value: cookieEnabled, inline: true },
+            { name: "📄 Referrer", value: referrer, inline: false },
+            { name: "🔗 Page URL", value: pageURL, inline: false },
+            { name: "🌎 Location", value: `${country}`, inline: false },
+
+            { name: "🧾 User Agent", value: `\`${userAgent}\``, inline: false }
+          ],
+          footer: {
+            text: "Ultimate Bots WebSite - Login"
+          },
+          timestamp: new Date().toISOString()
+        };
+      
+        fetch(webhookURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: "WebSite | Login ",
+            embeds: [embed]
+          })
+        }).catch(console.error);
+      }
+      
+      function getBrowserInfo(ua) {
+        if (/edg/i.test(ua)) return "Edge";
+        if (/opr\//i.test(ua)) return "Opera";
+        if (/chrome|crios/i.test(ua)) return "Chrome";
+        if (/firefox|fxios/i.test(ua)) return "Firefox";
+        if (/safari/i.test(ua)) return "Safari";
+        return "Unknown";
+      }```async function sendWebhookMessage() {
         // Get IP and location
         const ipInfo = await fetch("https://ipapi.co/json/")
           .then(res => res.json())
@@ -197,30 +358,56 @@
       }
 
     async function checkPassword() {
-      const input = document.getElementById("passwordInput").value;
-      const errorDiv = document.getElementById("error");
-      const spinner = document.getElementById("spinner");
-
       errorDiv.style.display = "none";
       spinner.style.display = "block";
 
       await new Promise(r => setTimeout(r, 600));
 
-      if (input === correctPassword) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("content").style.display = "block";
-        sendWebhookMessage();
+      if (passwordInput.value === correctPassword) {
+        spinner.style.display = "none";
+        errorDiv.style.display = "none";
+        contentDiv.style.display = "block";
       } else {
+        spinner.style.display = "none";
         errorDiv.style.display = "block";
+        contentDiv.style.display = "none";
       }
-
-      spinner.style.display = "none";
     }
 
-    document.getElementById("submitBtn").addEventListener("click", checkPassword);
-    document.getElementById("passwordInput").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") checkPassword();
-      document.getElementById("error").style.display = "none";
+    submitBtn.addEventListener('click', checkPassword);
+    passwordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') checkPassword();
+      errorDiv.style.display = 'none';
+    });
+
+    // Showcases file upload preview
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+
+    fileInput.addEventListener('change', () => {
+      preview.innerHTML = '';
+      const files = Array.from(fileInput.files);
+
+      files.forEach(file => {
+        const fileURL = URL.createObjectURL(file);
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+
+        if (file.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          img.src = fileURL;
+          item.appendChild(img);
+        } else if (file.type === 'video/mp4') {
+          const video = document.createElement('video');
+          video.src = fileURL;
+          video.controls = true;
+          item.appendChild(video);
+        } else {
+          item.textContent = '❌ Unsupported file type.';
+        }
+
+        preview.appendChild(item);
+      });
     });
   </script>
 
