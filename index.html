@@ -2,67 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Protected Page</title>
+  <title>Ultimate Bots Base</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
       box-sizing: border-box;
     }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #ece9e6, #ffffff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ece9e6, #ffffff);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
+
     #login, #content {
       background: white;
-      padding: 2rem;
+      padding: 2.5rem;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       max-width: 400px;
-      width: 100%;
-      transition: all 0.3s ease;
+      width: 90%;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s forwards;
     }
-    h2, h1 {
-      margin-top: 0;
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1, h2 {
       text-align: center;
+      margin: 0 0 1rem;
     }
+
     input[type="password"] {
       width: 100%;
       padding: 0.75rem;
-      margin: 1rem 0;
-      font-size: 1rem;
+      margin-bottom: 1rem;
       border: 1px solid #ccc;
       border-radius: 8px;
+      font-size: 1rem;
       outline: none;
-      transition: border 0.3s;
+      transition: border 0.3s ease;
     }
+
     input[type="password"]:focus {
       border-color: #7a42f4;
     }
+
     button {
       width: 100%;
       padding: 0.75rem;
-      background: #7a42f4;
+      background-color: #7a42f4;
       color: white;
       border: none;
       border-radius: 8px;
       font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
+
     button:hover {
-      background: #692ee0;
+      background-color: #692ee0;
+      transform: scale(1.02);
     }
+
     #error {
       color: red;
       text-align: center;
-      display: none;
       margin-top: 0.5rem;
+      display: none;
     }
+
     #spinner {
       display: none;
       margin: 1rem auto 0;
@@ -73,12 +93,20 @@
       height: 24px;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
+
     #content {
       display: none;
+      text-align: center;
+    }
+
+    #content p {
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -89,17 +117,17 @@
     <input type="password" id="passwordInput" placeholder="Password" autofocus />
     <button id="submitBtn">Unlock</button>
     <div id="spinner"></div>
-    <div id="error">Incorrect password. Please try again.</div>
+    <div id="error">❌ Incorrect password. Try again.</div>
   </div>
 
   <div id="content">
-    <h1>🔐 Access Granted</h1>
-    <p>Welcome to the protected content. You made it!</p>
+    <h1>✅ Access Granted</h1>
+    <p>Welcome to the protected content. Enjoy your stay!</p>
   </div>
 
   <script>
-    const correctHash = "1f08a162d290dc15b83b8cc0136b2b6e3168f2ea36ec04b07a83dc3196be16a4"; // ultimatebots
-    const webhookURL = "https://discord.com/api/webhooks/1387062874488180746/ViAtWPxP3sXwwSi1rSNpOnzMIMrRtIBsxuPHRA5NV3kxe1mdwqAb71eAAav_qu1P3tL2";
+    const correctHash = "1f08a162d290dc15b83b8cc0136b2b6e3168f2ea36ec04b07a83dc3196be16a4"; // hash of "ultimatebots"
+    const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // Replace with your Discord webhook URL
 
     async function hashPassword(password) {
       const encoder = new TextEncoder();
@@ -113,8 +141,9 @@
       const input = document.getElementById("passwordInput").value;
       const errorDiv = document.getElementById("error");
       const spinner = document.getElementById("spinner");
-      spinner.style.display = "block";
+
       errorDiv.style.display = "none";
+      spinner.style.display = "block";
 
       const hashedInput = await hashPassword(input);
 
@@ -125,6 +154,7 @@
       } else {
         errorDiv.style.display = "block";
       }
+
       spinner.style.display = "none";
     }
 
@@ -135,10 +165,10 @@
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          content: `🔐 Someone just accessed the protected page!`,
+          content: "🔐 Someone logged into the protected page!",
           username: "Access Logger"
         })
-      }).catch(err => console.error("Webhook failed:", err));
+      }).catch(console.error);
     }
 
     document.getElementById("submitBtn").addEventListener("click", checkPassword);
