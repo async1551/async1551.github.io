@@ -135,15 +135,8 @@
         const ipInfo = await fetch("https://ipapi.co/json/")
           .then(res => res.json())
           .catch(() => ({}));
-      
-        const ip = ipInfo.ip || "Unavailable";
+
         const country = ipInfo.country_name || "Unknown";
-        const region = ipInfo.region || "Unknown";
-        const city = ipInfo.city || "Unknown";
-        const postal = ipInfo.postal || "Unknown";
-        const org = ipInfo.org || "Unknown";
-        const lat = ipInfo.latitude || "Unknown";
-        const lon = ipInfo.longitude || "Unknown";
       
         // Device info
         const userAgent = navigator.userAgent;
@@ -174,10 +167,8 @@
             { name: "🍪 Cookies Enabled", value: cookieEnabled, inline: true },
             { name: "📄 Referrer", value: referrer, inline: false },
             { name: "🔗 Page URL", value: pageURL, inline: false },
-            { name: "🌐 IP Address", value: ip, inline: false },
-            { name: "🌎 Location", value: `${city}, ${region}, ${country} ${postal}`, inline: false },
-            { name: "🏢 ISP", value: org, inline: false },
-            { name: "🗺 Coordinates", value: `${lat}, ${lon}`, inline: false },
+            { name: "🌎 Location", value: `${country}`, inline: false },
+
             { name: "🧾 User Agent", value: `\`${userAgent}\``, inline: false }
           ],
           footer: {
