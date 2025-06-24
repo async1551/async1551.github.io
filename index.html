@@ -130,26 +130,60 @@
     const webhookURL = "https://discord.com/api/webhooks/1387062874488180746/ViAtWPxP3sXwwSi1rSNpOnzMIMrRtIBsxuPHRA5NV3kxe1mdwqAb71eAAav_qu1P3tL2"; // Replace with your webhook
 
     function sendWebhookMessage() {
-        const userAgent = navigator.userAgent;
-        const platform = navigator.platform;
-        const browser = getBrowserInfo(userAgent);
-        const timestamp = new Date().toLocaleString();
-      
-        const message = `🔐 **Login Detected**
-      **🕒 Time:** ${timestamp}
-      **💻 Platform:** ${platform}
-      **🌐 Browser:** ${browser}
-      **🧾 User Agent:** \`${userAgent}\``;
-      
-        fetch(webhookURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            content: message,
-            username: "Access Logger"
-          })
-        }).catch(console.error);
-      }
+      const userAgent = navigator.userAgent;
+      const platform = navigator.platform;
+      const browser = getBrowserInfo(userAgent);
+      const timestamp = new Date().toLocaleString();
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const language = navigator.language;
+      const screenSize = `${window.screen.width}x${window.screen.height}`;
+      const windowSize = `${window.innerWidth}x${window.innerHeight}`;
+      const referrer = document.referrer || "None";
+      const pageURL = window.location.href;
+      const touchSupport = navigator.maxTouchPoints > 0 ? "Yes" : "No";
+      const cookieEnabled = navigator.cookieEnabled ? "Yes" : "No";
+    
+      const embed = {
+        title: "🔐 Login Detected",
+        color: 0x7a42f4,  // purple-ish
+        fields: [
+          { name: "🕒 Time", value: timestamp, inline: true },
+          { name: "🌍 Timezone", value: timezone, inline: true },
+          { name: "💻 Platform", value: platform, inline: true },
+          { name: "🌐 Browser", value: browser, inline: true },
+          { name: "📐 Screen Size", value: screenSize, inline: true },
+          { name: "📏 Window Size", value: windowSize, inline: true },
+          { name: "🌐 Language", value: language, inline: true },
+          { name: "☝️ Touch Support", value: touchSupport, inline: true },
+          { name: "🍪 Cookies Enabled", value: cookieEnabled, inline: true },
+          { name: "📄 Referrer", value: referrer, inline: false },
+          { name: "🔗 Page URL", value: pageURL, inline: false },
+          { name: "🧾 User Agent", value: `\`${userAgent}\``, inline: false }
+        ],
+        footer: {
+          text: "Ultimate Bots - Login"
+        },
+        timestamp: new Date().toISOString()
+      };
+    
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: "Access Logger",
+          embeds: [embed]
+        })
+      }).catch(console.error);
+    }
+    
+    function getBrowserInfo(ua) {
+      if (/edg/i.test(ua)) return "Edge";
+      if (/opr\//i.test(ua)) return "Opera";
+      if (/chrome|crios/i.test(ua)) return "Chrome";
+      if (/firefox|fxios/i.test(ua)) return "Firefox";
+      if (/safari/i.test(ua)) return "Safari";
+      return "Unknown";
+    }
       
       // Basic browser detection
       function getBrowserInfo(ua) {
@@ -169,7 +203,7 @@
       errorDiv.style.display = "none";
       spinner.style.display = "block";
 
-      await new Promise(r => setTimeout(r, 600)); // simulate loading
+      await new Promise(r => setTimeout(r, 600));
 
       if (input === correctPassword) {
         document.getElementById("login").style.display = "none";
