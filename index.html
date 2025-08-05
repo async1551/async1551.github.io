@@ -10,15 +10,12 @@
   body, html {
     margin: 0;
     padding: 0;
-    height: 100%;
     font-family: 'Nunito', sans-serif;
+    color: #d7d2c5;
+    scroll-behavior: smooth;
+    transition: background 0.5s ease;
     background: url('websitebackground.jpeg') no-repeat center center fixed;
     background-size: cover;
-    color: #d7d2c5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 
   nav {
@@ -28,6 +25,8 @@
     text-align: center;
     font-weight: 600;
     font-size: 1.1rem;
+    z-index: 1000;
+    transition: top 0.3s;
   }
 
   nav a {
@@ -43,6 +42,16 @@
 
   main {
     text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  main img.logo {
+    height: 10rem;
+    margin: 0.2em 0;
   }
 
   main h1 {
@@ -50,13 +59,6 @@
     font-weight: 700;
     margin: 0.3em 0;
     color: #d7d2c5cc;
-  }
-
-  main h2 {
-    font-weight: 600;
-    font-size: 6rem;
-    color: #e16628;
-    margin: 0.2em 0;
   }
 
   main p {
@@ -84,39 +86,82 @@
     color: #1a1a1a;
   }
 
-  /* Vertical line below button */
   .vertical-line {
     margin: 3em auto 0 auto;
     width: 1px;
     height: 80px;
     background: #d7d2c5cc;
   }
+
+  section#about {
+    padding: 120px 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  section#about h2 {
+    font-size: 3rem;
+    color: #e16628;
+    margin-bottom: 0.5em;
+  }
+
+  section#about p {
+    max-width: 650px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
 </style>
 </head>
 <body>
-<nav>
+
+<nav id="navbar">
   <a href="#" class="active">Home</a>
   <a href="#about">About Us</a>
 </nav>
 
 <main>
-  <img src="c19logo.png" style="height: 12rem; margin: 0.2em 0; color: #e16628;" />
+  <img src="c19logo.png" alt="C19" class="logo">
   <h1>Club 19</h1>
   <p>Let's be the change we want to see on the internet.</p>
   <button onclick="window.location.href='https://discord.gg/MNrxCGSdqP'">Join our Discord Server</button>
   <div class="vertical-line"></div>
 </main>
-<section id="about" style="padding: 100px 20px; text-align: center; background-color: rgba(0, 0, 0, 0.6); color: #d7d2c5;">
-  <h2 style="font-size: 3rem; color: #e16628;">About Us</h2>
-  <p style="max-width: 600px; margin: 1em auto; font-size: 1.1rem; line-height: 1.6;">
-    Club 19 is a digital collective of creators, thinkers, and doers. We're building a community where innovation meets expression, and where every member has a voice. Whether you're into tech, art, games, or conversation — Club 19 is your place to connect and grow.
+
+<section id="about">
+  <h2>About Us</h2>
+  <p>
+    Club 19 is a digital collective of creators, thinkers, and doers. We're building a community where innovation
+    meets expression, and where every member has a voice. Whether you're into tech, art, games, or conversation —
+    Club 19 is your place to connect and grow.
   </p>
 </section>
+
+<script>
+  // Hide nav on scroll down and show on scroll up
+  let lastScrollY = window.scrollY;
+  const navbar = document.getElementById('navbar');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > lastScrollY) {
+      navbar.style.top = '-100px';  // hide
+    } else {
+      navbar.style.top = '20px';    // show
+    }
+    lastScrollY = window.scrollY;
+
+    // Change background after scrolling down 200px
+    if (window.scrollY > 200) {
+      document.body.style.background =
+        "url('anotherbackground.jpeg') no-repeat center center fixed";
+      document.body.style.backgroundSize = "cover";
+    } else {
+      document.body.style.background =
+        "url('websitebackground.jpeg') no-repeat center center fixed";
+      document.body.style.backgroundSize = "cover";
+    }
+  });
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
