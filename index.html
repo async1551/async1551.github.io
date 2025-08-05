@@ -112,7 +112,7 @@
     line-height: 1.6;
   }
 
-  /* New Rules Section Styles */
+  /* Rules Section Styles */
 
   section#rules {
     max-width: 700px;
@@ -197,6 +197,36 @@
   .accordion-content ul li {
     margin-bottom: 0.75rem;
   }
+
+  /* New Discord Widget Section */
+
+  section#discord-widget {
+    max-width: 700px;
+    margin: 3rem auto 6rem auto;
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 12px;
+    padding: 2rem 1rem;
+    color: #d7d2c5;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    text-align: center;
+  }
+
+  section#discord-widget h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #996f51;
+    user-select: none;
+  }
+
+  section#discord-widget iframe {
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(153, 111, 81, 0.7);
+    max-width: 100%;
+    width: 350px;
+    height: 500px;
+    border: none;
+  }
 </style>
 </head>
 <body>
@@ -218,7 +248,7 @@
 <section id="about">
   <div class="section" style="display:flex;align-items:center;justify-content:space-between;padding:80px 10%;">
   <div class="text-col" style="flex:1;padding:20px;">
-    <h2 style="font-size:3rem;font-weight:700;margin-bottom:20px;color:#f0f0f0;">The team behind the project;</h2>
+    <h2 style="font-size:3rem;font-weight:700;margin-bottom:20px;color:#f0f0f0;">The team behind the project</h2>
     <p style="font-size:1.2rem;line-height:1.6;color:#f0f0f0;">
       Club 19 is a group of young people striving to make a big change. We believe that when young people come together with respect and honesty for the common good, they can change the world for the better.
     </p>
@@ -281,60 +311,46 @@
   </div>
 
   <div class="accordion-item">
-    <button class="accordion-header">Moderation and Sanctions</button>
+    <button class="accordion-header">Server Management</button>
     <div class="accordion-content">
       <ul>
-        <li>Violations of these rules may result in warnings, muting, or bans.</li>
-        <li>Repeated offenses will lead to permanent bans.</li>
-        <li>The moderation team reserves the right to act in the best interest of the community.</li>
+        <li><strong>Admin Decisions:</strong> Follow instructions given by server moderators and administrators.</li>
+        <li><strong>Rule Enforcement:</strong> Violations may result in warnings, temporary mutes, or bans depending on the severity.</li>
+        <li><strong>Appeals:</strong> If you feel a moderation action was unfair, contact the admin team privately.</li>
       </ul>
     </div>
   </div>
 </section>
 
+<section id="discord-widget">
+  <h2>Join Our Discord</h2>
+  <iframe
+    src="https://discord.com/widget?id=1281271317152399382&theme=dark"
+    width="350"
+    height="500"
+    allowtransparency="true"
+    frameborder="0"
+    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+  ></iframe>
+</section>
+
 <script>
-  let lastScrollY = window.scrollY;
-  const navbar = document.getElementById('navbar');
+  // Accordion functionality
+  const headers = document.querySelectorAll(".accordion-header");
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > lastScrollY) {
-      navbar.style.top = '-100px';
-    } else {
-      navbar.style.top = '20px';
-    }
-    lastScrollY = window.scrollY;
-
-    if (window.scrollY > 200) {
-      document.body.style.background =
-        "url('anotherbackground.jpeg') no-repeat center center fixed";
-      document.body.style.backgroundSize = "cover";
-    } else {
-      document.body.style.background =
-        "url('websitebackground.jpeg') no-repeat center center fixed";
-      document.body.style.backgroundSize = "cover";
-    }
-  });
-
-  // Accordion toggle logic
-  document.querySelectorAll('.accordion-header').forEach(header => {
-    header.addEventListener('click', () => {
-      const openContent = document.querySelector('.accordion-content.open');
-      if (openContent && openContent !== header.nextElementSibling) {
-        openContent.classList.remove('open');
-        openContent.previousElementSibling.classList.remove('active');
+  headers.forEach(header => {
+    header.addEventListener("click", () => {
+      const currentlyActive = document.querySelector(".accordion-header.active");
+      if (currentlyActive && currentlyActive !== header) {
+        currentlyActive.classList.remove("active");
+        currentlyActive.nextElementSibling.classList.remove("open");
       }
-
-      header.classList.toggle('active');
+      header.classList.toggle("active");
       const content = header.nextElementSibling;
-      if (content.classList.contains('open')) {
-        content.classList.remove('open');
-      } else {
-        content.classList.add('open');
-      }
+      content.classList.toggle("open");
     });
   });
 </script>
 
 </body>
 </html>
-
