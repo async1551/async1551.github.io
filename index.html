@@ -89,17 +89,67 @@
     overflow: hidden;
   }
 
-  #discord-widget {
-  max-width: 800px;
-  margin: 0 auto;
-  background: rgba(0,0,0,0.6);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-  
-  /* Center iframe horizontally */
+  #discord-section {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  height: 100vh;
+  gap: 30px;
+  padding: 0 20px;
+  /* Smooth fade-in animation */
+  opacity: 0;
+  animation: fadeIn 1.5s ease forwards;
+  }
+  
+  #discord-section h2 {
+    color: #b07a54; /* your bronze/brownish color */
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    transition: color 0.3s ease;
+  }
+  
+  /* Slight hover effect on the heading */
+  #discord-section h2:hover {
+    color: #d09c6a;
+  }
+  
+  #discord-widget {
+    background: rgba(0,0,0,0.6);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    max-width: 400px;
+    width: 100%;
+    margin-top: 20px;
+    /* Add subtle upward movement on load */
+    transform: translateY(20px);
+    animation: slideUp 1.5s ease forwards;
+    animation-delay: 0.5s;
+  }
+  
+  #discord-widget iframe {
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    border: none;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    to {
+      transform: translateY(0);
+    }
   }
   
   /* Προσαρμογή για τα συγκεκριμένα sections, διατηρούμε ίδιο στυλ */
@@ -278,9 +328,11 @@
   </div>
 </section>
 
-<section id="discord-widget">
+<section id="discord-section">
   <h2>Our Discord</h2>
-  <iframe src="https://discord.com/widget?id=1281271317152399382&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+  </div id="discord-widget">
+    <iframe src="https://discord.com/widget?id=1281271317152399382&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+  </div>
 </section>
 
 <script>
@@ -334,6 +386,7 @@
 </script>
 </body>
 </html>
+
 
 
 
