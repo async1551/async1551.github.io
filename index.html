@@ -111,6 +111,92 @@
     font-size: 1.2rem;
     line-height: 1.6;
   }
+
+  /* New Rules Section Styles */
+
+  section#rules {
+    max-width: 700px;
+    margin: 3rem auto 6rem auto;
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    color: #d7d2c5;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    font-size: 1.1rem;
+  }
+
+  section#rules h2 {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: #e16628;
+    user-select: none;
+  }
+
+  .accordion-item {
+    border-bottom: 1px solid #4a4a4a;
+  }
+
+  .accordion-header {
+    width: 100%;
+    text-align: left;
+    background: #e16628;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    margin-bottom: 8px;
+  }
+
+  .accordion-header:hover {
+    background: #bb4a00;
+  }
+
+  .accordion-header::after {
+    content: '\25BC'; /* down arrow */
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+    font-size: 1.1rem;
+  }
+
+  .accordion-header.active::after {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    background: rgba(255 255 255 / 0.1);
+    padding: 0 20px;
+    border-radius: 0 0 8px 8px;
+    color: #ddd;
+  }
+
+  .accordion-content.open {
+    padding: 15px 20px;
+    max-height: 600px; /* enough for content */
+  }
+
+  .accordion-content ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .accordion-content ul li {
+    margin-bottom: 0.75rem;
+  }
 </style>
 </head>
 <body>
@@ -118,6 +204,7 @@
 <nav id="navbar">
   <a href="#" class="active">Home</a>
   <a href="#about">About Us</a>
+  <a href="#rules">Rules</a>
 </nav>
 
 <main>
@@ -156,6 +243,55 @@
 </div>
 </section>
 
+<section id="rules">
+  <h2>Server Rules</h2>
+
+  <div class="accordion-item">
+    <button class="accordion-header">General Guidelines</button>
+    <div class="accordion-content">
+      <ul>
+        <li><strong>Respect to Others:</strong> Treat all members with respect and kindness. No form of harassment, discrimination, or offensive behavior will be tolerated.</li>
+        <li><strong>Inappropriate Content:</strong> Do not share or discuss any content that is explicitly NSFW or offensive, including text, speech, images, videos, or links.</li>
+        <li><strong>Online Threats:</strong> All forms of threats, including doxxing (sharing personal information without consent), are strictly prohibited.</li>
+        <li><strong>Illegal Activities:</strong> Discussing or promoting illegal activities is forbidden.</li>
+        <li><strong>Accounts:</strong> Only one account per user is allowed within the community (no alternate accounts).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header">Rules of Language and Conduct</button>
+    <div class="accordion-content">
+      <ul>
+        <li><strong>Hatred &amp; Discrimination:</strong> All forms of hatred, including racism, sexism, or any discrimination, are strictly prohibited.</li>
+        <li><strong>Trolling:</strong> No provocative or annoying behavior intended to provoke others (trolling) will be tolerated.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header">Instructions for Publishing Content</button>
+    <div class="accordion-content">
+      <ul>
+        <li><strong>Chat:</strong> Stay on topic and avoid spamming.</li>
+        <li><strong>Media Sharing:</strong> Only share content that aligns with the server's guidelines and rules.</li>
+        <li><strong>Respect Privacy:</strong> Avoid sharing personal or sensitive information without explicit consent.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header">Moderation and Sanctions</button>
+    <div class="accordion-content">
+      <ul>
+        <li>Violations of these rules may result in warnings, muting, or bans.</li>
+        <li>Repeated offenses will lead to permanent bans.</li>
+        <li>The moderation team reserves the right to act in the best interest of the community.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <script>
   let lastScrollY = window.scrollY;
   const navbar = document.getElementById('navbar');
@@ -178,11 +314,26 @@
       document.body.style.backgroundSize = "cover";
     }
   });
+
+  // Accordion toggle logic
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const openContent = document.querySelector('.accordion-content.open');
+      if (openContent && openContent !== header.nextElementSibling) {
+        openContent.classList.remove('open');
+        openContent.previousElementSibling.classList.remove('active');
+      }
+
+      header.classList.toggle('active');
+      const content = header.nextElementSibling;
+      if (content.classList.contains('open')) {
+        content.classList.remove('open');
+      } else {
+        content.classList.add('open');
+      }
+    });
+  });
 </script>
 
 </body>
 </html>
-
-
-
-
