@@ -4,370 +4,250 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Club 19</title>
-<link rel="icon" type="image/png" href="assets/c19logo.png">
+<link rel="icon" type="image/png" href="assets/c19logo.png" />
 <style>
-
   @font-face {
     font-family: 'MyHandwriting';
-    src:
-      url('assets/fonts/TJC82Marker.ttf') format('ttf'),
-      url('assets/fonts/TJC82Marker.ttf') format('ttf');
+    src: url('assets/fonts/TJC82Marker.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
-  
-  @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
-
   body, html {
     margin: 0;
     padding: 0;
     font-family: 'Nunito', sans-serif;
+    background-color: #1a1a1a;
     color: #d7d2c5;
     scroll-behavior: smooth;
-    transition: background 0.5s ease;
-    background: url('assets/websitebackground.jpeg') no-repeat center center fixed;
-    background-size: cover;
   }
-
   nav {
+    font-family: 'MyHandwriting', cursive;
     position: fixed;
     top: 20px;
     width: 100%;
     text-align: center;
-    font-family: 'MyHandwriting', cursive;
     font-weight: 600;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     z-index: 1000;
-    transition: top 0.3s;
   }
-
   nav a {
     margin: 0 15px;
     color: #d7d2c5cc;
     text-decoration: none;
     transition: color 0.3s;
   }
-
   nav a.active {
-    color: #986f51;    /* active color */
+    color: #986f51;
   }
-
   nav a:hover {
     color: white;
   }
-
   main {
-    text-align: center;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    padding: 20px;
   }
-
-  main img.logo {
-    height: 10rem;
-    margin: 0.2em 0;
+  main .logo {
+    height: 8rem;
+    width: auto;
+    margin-bottom: 1rem;
   }
-
   main h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    margin: 0.3em 0;
-    color: #d7d2c5cc;
+    font-size: 3rem;
+    margin: 0.4em 0;
   }
-
-  main p {
-    max-width: 480px;
-    margin: 1em auto 2em auto;
-    font-size: 1.1rem;
-    line-height: 1.5;
-    color: #d7d2c5cc;
-  }
-
   button {
     border: 1px solid #d7d2c5cc;
     background: transparent;
-    color: #d7d2c5cc;
-    padding: 0.7em 1.5em;
+    color: #d7d2c5;
+    padding: 0.6em 1.2em;
     font-weight: 600;
-    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    letter-spacing: 1px;
+    transition: all 0.3s;
   }
-
   button:hover {
-    background-color: #d7d2c5cc;
+    background: #d7d2c5cc;
     color: #1a1a1a;
   }
-
-  .vertical-line {
-    margin: 3em auto 0 auto;
-    width: 1px;
-    height: 80px;
-    background: #d7d2c5cc;
+  section {
+    padding: 80px 20px;
   }
-
-  section#about {
-    padding: 120px 20px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.6);
-  }
-
-  section#about h2 {
-    font-size: 3rem;
-    color: #e16628;
-    margin-bottom: 0.5em;
-  }
-
-  section#about p {
-    max-width: 650px;
+  #about, #rules, #discord-widget {
+    max-width: 800px;
     margin: 0 auto;
-    font-size: 1.2rem;
-    line-height: 1.6;
-  }
-
-  /* Rules Section Styles */
-
-  section#rules {
-    max-width: 700px;
-    margin: 3rem auto 6rem auto;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0,0,0,0.6);
     border-radius: 12px;
-    padding: 1rem 2rem;
-    color: #d7d2c5;
     box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-    font-size: 1.1rem;
   }
-
-  section#rules h2 {
-    text-align: center;
-    font-size: 2.8rem;
-    font-weight: 700;
-    margin-bottom: 1.2rem;
+  #about h2, #rules h2, #discord-widget h2 {
+    font-size: 2.5rem;
     color: #996f51;
-    user-select: none;
+    margin-bottom: 1rem;
+    text-align: center;
   }
-
-  .accordion-item {
-    border-bottom: 1px solid #4a4a4a;
+  #about .section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 0;
   }
-
+  #about img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 8px;
+  }
   .accordion-header {
     width: 100%;
-    text-align: left;
     background: #996f51;
     color: #fff;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     padding: 14px 20px;
-    border: none;
     border-radius: 8px;
     cursor: pointer;
-    position: relative;
-    transition: background-color 0.3s ease;
-    user-select: none;
     margin-bottom: 8px;
+    position: relative;
   }
-
-  .accordion-header:hover {
-    background: #996f51;
-  }
-
   .accordion-header::after {
     content: '\25BC';
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
-    transition: transform 0.3s ease;
-    font-size: 1.1rem;
+    transition: transform 0.3s;
   }
-
   .accordion-header.active::after {
     transform: translateY(-50%) rotate(180deg);
   }
-
   .accordion-content {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.35s ease, padding 0.35s ease;
-    background: rgba(255 255 255 / 0.1);
-    padding: 0 20px;
+    background: rgba(255,255,255,0.08);
     border-radius: 0 0 8px 8px;
     color: #ddd;
+    padding: 0 20px;
   }
-
   .accordion-content.open {
     padding: 15px 20px;
     max-height: 600px;
   }
-
-  .accordion-content ul {
-    margin: 0;
-    padding-left: 1.25rem;
-    line-height: 1.5;
-  }
-
-  .accordion-content ul li {
-    margin-bottom: 0.75rem;
-  }
-
-  /* New Discord Widget Section */
-
-  section#discord-widget {
-    max-width: 700px;
-    margin: 3rem auto 6rem auto;
-    background: rgba(0, 0, 0, 0.65);
-    border-radius: 12px;
-    padding: 2rem 1rem;
-    color: #d7d2c5;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-    text-align: center;
-  }
-
-  section#discord-widget h2 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: #996f51;
-    user-select: none;
-  }
-
-  section#discord-widget iframe {
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(153, 111, 81, 0.7);
-    max-width: 100%;
-    width: 350px;
-    height: 500px;
-    border: none;
-  }
-
   #backToTopBtn {
     display: none;
     position: fixed;
     bottom: 30px;
     right: 30px;
     z-index: 100;
-    background-color: #996f51;
+    background: #996f51;
     width: 48px;
     height: 48px;
     border: none;
     cursor: pointer;
-    padding: 0;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     display: flex;
     align-items: center;
     justify-content: center;
   }
   #backToTopBtn:hover {
-    background-color: #805e47;
+    background: #805e47;
   }
   #backToTopBtn svg {
-    display: block;
     width: 24px;
     height: 24px;
     stroke: black;
     fill: black;
   }
+  iframe {
+    border-radius: 12px;
+  }
 </style>
 </head>
 <body>
-
 <nav id="navbar">
   <a href="#" class="active">Home</a>
   <a href="#about">About Us</a>
   <a href="#rules">Laws</a>
   <a href="#discord-widget">Our Discord</a>
 </nav>
-  
-<button id="backToTopBtn" title="Scroll to top" aria-label="Back to top">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="18 15 12 9 6 15" />
-  </svg>
+
+<button id="backToTopBtn" aria-label="Back to top">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="3" fill="none" stroke="currentColor"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
-  
+
 <main>
-  <img src="assets/c19logo.png" alt="C19" class="logo">
+  <img src="assets/c19logo.png" alt="C19" class="logo" />
   <h1>Club 19</h1>
   <p>Let's be the change we want to see on the internet.</p>
   <button onclick="window.location.href='https://discord.gg/MNrxCGSdqP'">Join our Discord Server</button>
-  <div class="vertical-line"></div>
 </main>
 
 <section id="about">
-  <div class="section" style="display:flex;align-items:center;justify-content:space-between;padding:80px 10%;">
-    <div class="text-col" style="flex:1;padding:20px;">
-      <h2 style="font-size:3rem;font-weight:700;margin-bottom:20px;color:#f0f0f0;">The team behind the project</h2>
-      <p style="font-size:1.2rem;line-height:1.6;color:#f0f0f0;">
-        Club 19 is a group of young people striving to make a big change. We believe that when young people come together with respect and honesty for the common good, they can change the world for the better.
-      </p>
+  <h2>The team behind the project</h2>
+  <div class="section">
+    <div style="flex:1;min-width:250px;">
+      <p>Club 19 is a group of young people striving to make a big change. We believe that when young people come together with respect and honesty for the common good, they can change the world for the better.</p>
     </div>
-    <div class="img-col" style="flex:1;padding:20px;">
-      <img src="assets/aboutus1.jpeg" alt="gallery wall" style="width:100%;border-radius:8px;">
+    <div style="flex:1;min-width:250px;">
+      <img src="assets/aboutus1.jpeg" alt="gallery" />
     </div>
   </div>
 
-  <div class="section" style="display:flex;align-items:center;justify-content:space-between;padding:80px 10%;flex-direction:row-reverse;">
-    <div class="text-col" style="flex:1;padding:20px;">
-      <h2 style="font-size:3rem;font-weight:700;margin-bottom:20px;color:#f0f0f0;">However, why?</h2>
-      <p style="font-size:1.2rem;line-height:1.6;color:#f0f0f0;">
-        On our server, we have a few rules that we don't mess around with — that is, basic principles that keep us united and in good vibes. We believe that progress comes when we help each other and share, not when we play competitive games (no rage quits).
-        We gather tools, tips, and knowledge from here and there to make the lives of persistent people smoother and less... 🤡 chaotic.
-        Everything that goes up here, we want to be useful and worth your time — not just to fill up the chat.
-      </p>
+  <h2>However, why?</h2>
+  <div class="section">
+    <div style="flex:1;min-width:250px;">
+      <p>On our server, we have a few rules that keep us united and in good vibes. We gather tools, tips and knowledge to make the lives of persistent people smoother and less chaotic.</p>
     </div>
-    <div class="img-col" style="flex:1;padding:20px;">
-      <img src="assets/aboutus2.jpeg" alt="sculptures with poppies field" style="width:100%;border-radius:8px;">
+    <div style="flex:1;min-width:250px;">
+      <img src="assets/aboutus2.jpeg" alt="sculptures" />
     </div>
   </div>
 </section>
 
 <section id="rules">
   <h2>Server Rules</h2>
-
   <div class="accordion-item">
     <button class="accordion-header">General Guidelines</button>
     <div class="accordion-content">
       <ul>
-        <li><strong>Respect to Others:</strong> Treat all members with respect and kindness. No form of harassment, discrimination, or offensive behavior will be tolerated.</li>
-        <li><strong>Inappropriate Content:</strong> Do not share or discuss any content that is explicitly NSFW or offensive, including text, speech, images, videos, or links.</li>
-        <li><strong>Online Threats:</strong> All forms of threats, including doxxing (sharing personal information without consent), are strictly prohibited.</li>
-        <li><strong>Illegal Activities:</strong> Discussing or promoting illegal activities is forbidden.</li>
-        <li><strong>Accounts:</strong> Only one account per user is allowed within the community (no alternate accounts).</li>
+        <li><strong>Respect to Others:</strong> Treat all members with respect and kindness.</li>
+        <li><strong>Inappropriate Content:</strong> No NSFW or offensive content.</li>
+        <li><strong>Online Threats:</strong> Strictly prohibited.</li>
+        <li><strong>Illegal Activities:</strong> Forbidden.</li>
+        <li><strong>Accounts:</strong> Only one account per user.</li>
       </ul>
     </div>
   </div>
-
   <div class="accordion-item">
     <button class="accordion-header">Rules of Language and Conduct</button>
     <div class="accordion-content">
       <ul>
-        <li><strong>Hatred &amp; Discrimination:</strong> All forms of hatred, including racism, sexism, or any discrimination, are strictly prohibited.</li>
-        <li><strong>Trolling:</strong> No provocative or annoying behavior intended to provoke others (trolling) will be tolerated.</li>
+        <li>No hatred or discrimination.</li>
+        <li>No trolling behavior.</li>
       </ul>
     </div>
   </div>
-
   <div class="accordion-item">
-    <button class="accordion-header">Instructions for Publishing Content</button>
+    <button class="accordion-header">Publishing Content</button>
     <div class="accordion-content">
       <ul>
-        <li><strong>Chat:</strong> Stay on topic and avoid spamming.</li>
-        <li><strong>Media Sharing:</strong> Only share content that aligns with the server's guidelines and rules.</li>
-        <li><strong>Respect Privacy:</strong> Avoid sharing personal or sensitive information without explicit consent.</li>
+        <li>Stay on topic and avoid spam.</li>
+        <li>Media must align with guidelines.</li>
+        <li>Respect privacy.</li>
       </ul>
     </div>
   </div>
-
   <div class="accordion-item">
     <button class="accordion-header">Server Management</button>
     <div class="accordion-content">
       <ul>
-        <li><strong>Admin Decisions:</strong> Follow instructions given by server moderators and administrators.</li>
-        <li><strong>Rule Enforcement:</strong> Violations may result in warnings, temporary mutes, or bans depending on the severity.</li>
-        <li><strong>Appeals:</strong> If you feel a moderation action was unfair, contact the admin team privately.</li>
+        <li>Follow admin instructions.</li>
+        <li>Violations may result in punishment.</li>
+        <li>Appeals via DMs.</li>
       </ul>
     </div>
   </div>
@@ -375,60 +255,42 @@
 
 <section id="discord-widget">
   <h2>Join Our Discord</h2>
-  <iframe
-    src="https://discord.com/widget?id=1281271317152399382&theme=dark"
-    width="350"
-    height="500"
-    allowtransparency="true"
-    frameborder="0"
-    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-  ></iframe>
+  <iframe src="https://discord.com/widget?id=1281271317152399382&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-same-origin allow-scripts"></iframe>
 </section>
 
 <script>
-  // Accordion functionality
-  const headers = document.querySelectorAll(".accordion-header");
-
+  // Accordion toggle
+  const headers = document.querySelectorAll('.accordion-header');
   headers.forEach(header => {
-    header.addEventListener("click", () => {
-      const currentlyActive = document.querySelector(".accordion-header.active");
-      if (currentlyActive && currentlyActive !== header) {
-        currentlyActive.classList.remove("active");
-        currentlyActive.nextElementSibling.classList.remove("open");
+    header.addEventListener('click', () => {
+      const active = document.querySelector('.accordion-header.active');
+      if (active && active !== header) {
+        active.classList.remove('active');
+        active.nextElementSibling.classList.remove('open');
       }
-      header.classList.toggle("active");
+      header.classList.toggle('active');
       const content = header.nextElementSibling;
-      content.classList.toggle("open");
+      content.classList.toggle('open');
     });
   });
 
-  const btn = document.getElementById("backToTopBtn");
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 0) {
-      btn.style.display = "block";
-    } else {
-      btn.style.display = "none";
-    }
+  // Back to top button
+  const backToTopBtn = document.getElementById('backToTopBtn');
+  window.addEventListener('scroll', () => {
+    backToTopBtn.style.display = window.scrollY > 100 ? 'flex' : 'none';
+  });
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  btn.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-
-  // Change active nav link on click
-  const navLinks = document.querySelectorAll("nav a");
-
+  // Navbar link active state
+  const navLinks = document.querySelectorAll('nav a');
   navLinks.forEach(link => {
-    link.addEventListener("click", function() {
-      navLinks.forEach(l => l.classList.remove("active"));
-      this.classList.add("active");
+    link.addEventListener('click', function() {
+      navLinks.forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
     });
   });
 </script>
-
 </body>
 </html>
