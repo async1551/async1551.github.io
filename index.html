@@ -16,7 +16,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Nunito', sans-serif;
-    background-color: #1a1a1a;
+    background-color: #1a1a1a; /* Σκοτεινό background για το σώμα */
     color: #d7d2c5;
     scroll-behavior: smooth;
   }
@@ -73,18 +73,22 @@
     background: #d7d2c5cc;
     color: #1a1a1a;
   }
+
+  /* --- Κεντρική αλλαγή για ξεχωριστό background στα sections --- */
   section {
-  padding: 80px 20px;
-  max-width: 800px;
-  margin: 40px auto; /* απόσταση πάνω-κάτω μεταξύ sections */
-  background: rgba(0,0,0,0.6);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-  overflow: hidden;
+    padding: 80px 20px;
+    max-width: 800px;
+    margin: 40px auto; /* Απόσταση πάνω-κάτω ανάμεσα στα sections */
+    background: rgba(0,0,0,0.6);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    overflow: hidden;
   }
+
+  /* Προσαρμογή για τα συγκεκριμένα sections, διατηρούμε ίδιο στυλ */
   #about, #rules, #discord-widget {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 40px auto;
     background: rgba(0,0,0,0.6);
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.7);
@@ -247,86 +251,69 @@
     </div>
   </div>
   <div class="accordion-item">
-    <button class="accordion-header">Politeness and Platform Behaviour</button>
+    <button class="accordion-header">Additional rules</button>
     <div class="accordion-content">
       <ul>
-        <li><strong>Channel usage:<strong> Use the channels for their intended purposes.</li>
-        <li><strong>Anoying Audio/Text:<strong> Avoid spam, written or even verbal, which could interrupt other conversations.</li>
-        <li><strong>Voice Chat:<strong> When using voice channels, be careful with the noise and volume of your microphone.</li>
-        <li><strong>Sensitive Conversations:<strong> Sensitive topics (Political, Religious etc.) are strictly forbidden. Such discussions are allowed only on a locked voice channel and with the consent of all members of the call.</li>
-      </ul>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <button class="accordion-header">Discipline and Enforcement</button>
-    <div class="accordion-content">
-      <ul>
-        <li><strong>Follow Staff Instructions:<strong> Follow the instructions of the moderators and administrators directly.</li>
-        <li><strong>Complaint Procedure:<strong> If you believe you have been unfairly punished, contact the moderators via ticket to discuss the matter.</li>
-      </ul>
-    </div>
-  </div>
-  </div>
-  <div class="accordion-item">
-    <button class="accordion-header">Reference</button>
-    <div class="accordion-content">
-      <ul>
-        <li><strong>Reference Function:<strong> Use the report function to alert moderators of rule violations.</li>
-        <li><strong>Discipline Decisions:<strong> The decisions of the moderators are final. Disputes can be discussed privately with moderators or via ticket.</li>
-      </ul>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <button class="accordion-header">Privacy and Security</button>
-    <div class="accordion-content">
-      <ul>
-        <li><strong>Personal Information:</strong> Do not share personal information about yourself or others.</li>
-        <li><strong>Online Security:</strong> Be alert for clickable links and report any suspicious activity to moderators.</li>
+        <li><strong>Moderation:<strong> Please follow the instructions of the moderation team.</li>
+        <li><strong>Disrespect:<strong> Do not intentionally disrupt the community or the Discord server.</li>
       </ul>
     </div>
   </div>
 </section>
 
 <section id="discord-widget">
-  <h2>Join Our Discord</h2>
-  <iframe src="https://discord.com/widget?id=1281271317152399382&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-same-origin allow-scripts"></iframe>
+  <h2>Our Discord</h2>
+  <iframe src="https://discord.com/widget?id=1128323478771335808&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
 </section>
 
 <script>
-  // Accordion toggle
-  const headers = document.querySelectorAll('.accordion-header');
-  headers.forEach(header => {
-    header.addEventListener('click', () => {
-      const active = document.querySelector('.accordion-header.active');
-      if (active && active !== header) {
-        active.classList.remove('active');
-        active.nextElementSibling.classList.remove('open');
+  // Accordion functionality
+  document.querySelectorAll('.accordion-header').forEach(button => {
+    button.addEventListener('click', () => {
+      const open = button.classList.contains('active');
+      // Close all
+      document.querySelectorAll('.accordion-header').forEach(hdr => hdr.classList.remove('active'));
+      document.querySelectorAll('.accordion-content').forEach(content => content.classList.remove('open'));
+      // Toggle current
+      if (!open) {
+        button.classList.add('active');
+        button.nextElementSibling.classList.add('open');
       }
-      header.classList.toggle('active');
-      const content = header.nextElementSibling;
-      content.classList.toggle('open');
     });
   });
 
-  // Back to top button
+  // Back to Top Button
   const backToTopBtn = document.getElementById('backToTopBtn');
   window.addEventListener('scroll', () => {
-    backToTopBtn.style.display = window.scrollY > 100 ? 'flex' : 'none';
+    if (window.scrollY > 200) {
+      backToTopBtn.style.display = 'flex';
+    } else {
+      backToTopBtn.style.display = 'none';
+    }
   });
   backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({top: 0, behavior: 'smooth'});
   });
 
-  // Navbar link active state
+  // Navbar active link on scroll
+  const sections = document.querySelectorAll('section');
   const navLinks = document.querySelectorAll('nav a');
-  navLinks.forEach(link => {
-    link.addEventListener('click', function() {
-      navLinks.forEach(x => x.classList.remove('active'));
-      this.classList.add('active');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 80;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
     });
   });
 </script>
 </body>
 </html>
-
-
