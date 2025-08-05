@@ -49,10 +49,10 @@
   }
 
   nav a.active {
-  color: ##986f51; /* example colour */
-}
+    color: #986f51;    /* active color */
+  }
 
-  nav a.active, nav a:hover {
+  nav a:hover {
     color: white;
   }
 
@@ -176,7 +176,7 @@
   }
 
   .accordion-header::after {
-    content: '\25BC'; /* down arrow */
+    content: '\25BC';
     position: absolute;
     right: 20px;
     top: 50%;
@@ -201,7 +201,7 @@
 
   .accordion-content.open {
     padding: 15px 20px;
-    max-height: 600px; /* enough for content */
+    max-height: 600px;
   }
 
   .accordion-content ul {
@@ -250,9 +250,9 @@
     bottom: 30px;
     right: 30px;
     z-index: 100;
-    background-color: #996f51; /* Το καφέ τετράγωνο background */
-    width: 48px;  /* Τετράγωνο */
-    height: 48px; /* Τετράγωνο */
+    background-color: #996f51;
+    width: 48px;
+    height: 48px;
     border: none;
     cursor: pointer;
     padding: 0;
@@ -262,7 +262,7 @@
     justify-content: center;
   }
   #backToTopBtn:hover {
-    background-color: #805e47; /* λίγο πιο σκούρο στο hover */
+    background-color: #805e47;
   }
   #backToTopBtn svg {
     display: block;
@@ -298,30 +298,30 @@
 
 <section id="about">
   <div class="section" style="display:flex;align-items:center;justify-content:space-between;padding:80px 10%;">
-  <div class="text-col" style="flex:1;padding:20px;">
-    <h2 style="font-size:3rem;font-weight:700;margin-bottom:20px;color:#f0f0f0;">The team behind the project</h2>
-    <p style="font-size:1.2rem;line-height:1.6;color:#f0f0f0;">
-      Club 19 is a group of young people striving to make a big change. We believe that when young people come together with respect and honesty for the common good, they can change the world for the better.
-    </p>
+    <div class="text-col" style="flex:1;padding:20px;">
+      <h2 style="font-size:3rem;font-weight:700;margin-bottom:20px;color:#f0f0f0;">The team behind the project</h2>
+      <p style="font-size:1.2rem;line-height:1.6;color:#f0f0f0;">
+        Club 19 is a group of young people striving to make a big change. We believe that when young people come together with respect and honesty for the common good, they can change the world for the better.
+      </p>
+    </div>
+    <div class="img-col" style="flex:1;padding:20px;">
+      <img src="assets/aboutus1.jpeg" alt="gallery wall" style="width:100%;border-radius:8px;">
+    </div>
   </div>
-  <div class="img-col" style="flex:1;padding:20px;">
-    <img src="assets/aboutus1.jpeg" alt="gallery wall" style="width:100%;border-radius:8px;">
-  </div>
-</div>
 
-<div class="section" style="display:flex;align-items:center;justify-content:space-between;padding:80px 10%;flex-direction:row-reverse;">
-  <div class="text-col" style="flex:1;padding:20px;">
-    <h2 style="font-size:3rem;font-weight:700;margin-bottom:20px;color:#f0f0f0;">However, why?</h2>
-    <p style="font-size:1.2rem;line-height:1.6;color:#f0f0f0;">
-      On our server, we have a few rules that we don't mess around with — that is, basic principles that keep us united and in good vibes. We believe that progress comes when we help each other and share, not when we play competitive games (no rage quits). .
-      We gather tools, tips, and knowledge from here and there to make the lives of persistent people smoother and less... 🤡 chaotic.
-      Everything that goes up here, we want to be useful and worth your time — not just to fill up the chat.
-    </p>
+  <div class="section" style="display:flex;align-items:center;justify-content:space-between;padding:80px 10%;flex-direction:row-reverse;">
+    <div class="text-col" style="flex:1;padding:20px;">
+      <h2 style="font-size:3rem;font-weight:700;margin-bottom:20px;color:#f0f0f0;">However, why?</h2>
+      <p style="font-size:1.2rem;line-height:1.6;color:#f0f0f0;">
+        On our server, we have a few rules that we don't mess around with — that is, basic principles that keep us united and in good vibes. We believe that progress comes when we help each other and share, not when we play competitive games (no rage quits).
+        We gather tools, tips, and knowledge from here and there to make the lives of persistent people smoother and less... 🤡 chaotic.
+        Everything that goes up here, we want to be useful and worth your time — not just to fill up the chat.
+      </p>
+    </div>
+    <div class="img-col" style="flex:1;padding:20px;">
+      <img src="assets/aboutus2.jpeg" alt="sculptures with poppies field" style="width:100%;border-radius:8px;">
+    </div>
   </div>
-  <div class="img-col" style="flex:1;padding:20px;">
-    <img src="assets/aboutus2.jpeg" alt="sculptures with poppies field" style="width:100%;border-radius:8px;">
-  </div>
-</div>
 </section>
 
 <section id="rules">
@@ -405,7 +405,6 @@
   const btn = document.getElementById("backToTopBtn");
 
   window.addEventListener("scroll", () => {
-    // Show the button if the page is scrolled down at least 1px
     if (window.scrollY > 0) {
       btn.style.display = "block";
     } else {
@@ -414,20 +413,18 @@
   });
 
   btn.addEventListener("click", () => {
-    // Smooth scroll back to the top
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
   });
 
+  // Change active nav link on click
   const navLinks = document.querySelectorAll("nav a");
 
   navLinks.forEach(link => {
     link.addEventListener("click", function() {
-      // Remove "active" from all nav links
       navLinks.forEach(l => l.classList.remove("active"));
-      // Add "active" to the clicked link
       this.classList.add("active");
     });
   });
@@ -435,11 +432,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
